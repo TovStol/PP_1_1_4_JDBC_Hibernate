@@ -17,9 +17,22 @@ import java.util.Properties;
 public class Util {
 
 
-    private static SessionFactory sessionFactory;
+    private static Util INSTANCE;
+    private SessionFactory sessionFactory = null;
 
-    public static SessionFactory getSessionFactory() {
+    private Util() {
+
+    }
+
+    public static Util getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new Util();
+        }
+        return INSTANCE;
+    }
+
+    public SessionFactory getSessionFactory() {
+
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration();
@@ -46,11 +59,9 @@ public class Util {
                 sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 
             } catch (Exception e) {
-                System.out.println("Connection failed" + e);
+                e.printStackTrace();
             }
-
         }
-
         return sessionFactory;
     }
 
@@ -61,7 +72,7 @@ public class Util {
             connection = DriverManager
                     .getConnection("jdbc:mysql://localhost/store", "root", "xsl8gy7r");
         } catch (SQLException e) {
-            System.out.println("Connection failed" + e);
+            e.printStackTrace();
         }
         return connection;
     }

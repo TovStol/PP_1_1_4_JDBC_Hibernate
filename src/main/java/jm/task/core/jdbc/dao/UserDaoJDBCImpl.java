@@ -9,7 +9,7 @@ import java.util.List;
 
 
 public class UserDaoJDBCImpl implements UserDao {
-    private final Util util = new Util();
+    private Util util = Util.getInstance();
 
     public UserDaoJDBCImpl() {
 
@@ -23,7 +23,7 @@ public class UserDaoJDBCImpl implements UserDao {
                     + "(id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(20) NOT NULL , "
                     + "lastName VARCHAR(20) NOT NULL , age SMALLINT NOT NULL)");
         } catch (SQLException e) {
-            System.out.println("Таблица не создана -> " + e);
+            e.printStackTrace();
         }
     }
 
@@ -33,7 +33,7 @@ public class UserDaoJDBCImpl implements UserDao {
              Statement statement = connection.createStatement()) {
             statement.executeUpdate("DROP TABLE IF EXISTS users");
         } catch (SQLException e) {
-            System.out.println("Таблица не удалена -> " + e);
+            e.printStackTrace();
         }
     }
 
@@ -48,7 +48,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.executeUpdate();
             System.out.printf("User с именем – %s добавлен в базу данных \n", name);
         } catch (SQLException e) {
-            System.out.println("User не добавлен -> " + e);
+            e.printStackTrace();
 
         }
     }
@@ -61,7 +61,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("User не удален -> " + e);
+            e.printStackTrace();
         }
     }
 
@@ -82,7 +82,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 userList.add(user);
             }
         } catch (SQLException e) {
-            System.out.println("Ошибка получения всех User -> " + e);
+            e.printStackTrace();
         }
         return userList;
     }
@@ -93,7 +93,7 @@ public class UserDaoJDBCImpl implements UserDao {
              Statement statement = connection.createStatement()) {
             statement.executeUpdate("TRUNCATE TABLE store.users");
         } catch (SQLException e) {
-            System.out.println("User не удален -> " + e);
+            e.printStackTrace();
         }
     }
 
